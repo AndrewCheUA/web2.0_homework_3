@@ -5,6 +5,17 @@ import concurrent.futures
 
 
 logging.basicConfig(level=logging.DEBUG, format='%(threadName)s %(message)s')
+
+
+def factorize(*numbers):
+    for number in numbers:
+        x_list = []
+        x = 1
+        while x <= number:
+            if number % x == 0:
+                x_list.append(x)
+            x += 1
+        print(x_list)
     
 
 def factorize_all(number):
@@ -22,7 +33,12 @@ if __name__ == '__main__':
     with concurrent.futures.ThreadPoolExecutor(max_workers=cpu_count()) as executor:
         results = list(executor.map(factorize_all, (128, 255, 99999, 10651060)))
     delta = default_timer() - t1
-    logging.info(f"Process run time {delta}")
+    logging.info(f"Process ThreadPoolExecutor run time {delta}")
+
+    t2 = default_timer()
+    factorize(128, 255, 99999, 10651060)
+    delta2 = default_timer() - t2
+    logging.info(f"Process factorize run time {delta2}")
     
 
 # a, b, c, d  = factorize(128, 255, 99999, 10651060)
